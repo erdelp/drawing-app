@@ -14,6 +14,7 @@ A full-stack drawing application built with React, Node.js, Express, and TypeScr
 ## Tech Stack
 
 ### Frontend
+
 - **React 18** with TypeScript
 - **Vite** for fast development and building
 - **Tailwind CSS** for styling
@@ -21,12 +22,14 @@ A full-stack drawing application built with React, Node.js, Express, and TypeScr
 - **Axios** for API calls
 
 ### Backend
+
 - **Node.js** with Express
 - **TypeScript** for type safety
 - **CORS** enabled for cross-origin requests
 - **UUID** for unique identifiers
 
 ### Development Tools
+
 - **ESLint** for code linting
 - **Prettier** for code formatting
 - **Concurrently** for running multiple processes
@@ -42,12 +45,14 @@ A full-stack drawing application built with React, Node.js, Express, and TypeScr
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/erdelp/drawing-app.git
    cd drawing-app
    ```
 
 2. **Install dependencies for all packages**
+
    ```bash
    npm run install:all
    ```
@@ -66,6 +71,7 @@ A full-stack drawing application built with React, Node.js, Express, and TypeScr
    ```
 
 4. **Start the development servers**
+
    ```bash
    npm run dev
    ```
@@ -105,12 +111,14 @@ drawing-app/
 ## API Endpoints
 
 ### Drawings
+
 - `GET /api/drawings` - Get all drawings
 - `GET /api/drawings/:id` - Get specific drawing
 - `POST /api/drawings` - Create new drawing
 - `DELETE /api/drawings/:id` - Delete drawing
 
 ### Health Check
+
 - `GET /health` - Server health check
 
 ## Usage
@@ -150,10 +158,12 @@ Currently, the app uses in-memory storage. To add persistent storage:
 ## Deployment
 
 ### Frontend (Client)
+
 1. Build the client: `npm run build:client`
 2. Deploy the `client/dist` folder to a static hosting service (Vercel, Netlify, etc.)
 
 ### Backend (Server)
+
 1. Build the server: `npm run build:server`
 2. Deploy the `server/dist` folder to a hosting service (Heroku, DigitalOcean, etc.)
 3. Set environment variables on your hosting platform

@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Drawing } from '../../../shared/types';
-import { drawingApi } from '../services/api';
-import { DrawingPreview } from './DrawingPreview';
+import React, { useState, useEffect } from "react";
+import { Drawing } from "../../../shared/types";
+import { drawingApi } from "../services/api";
+import { DrawingPreview } from "./DrawingPreview";
 
 export const DrawingGallery: React.FC = () => {
   const [drawings, setDrawings] = useState<Drawing[]>([]);
@@ -22,18 +22,18 @@ export const DrawingGallery: React.FC = () => {
       if (response.success && response.data) {
         setDrawings(response.data);
       } else {
-        setError(response.error || 'Failed to load drawings');
+        setError(response.error || "Failed to load drawings");
       }
     } catch (err) {
-      console.error('Error loading drawings:', err);
-      setError('Failed to load drawings. Please try again.');
+      console.error("Error loading drawings:", err);
+      setError("Failed to load drawings. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   const deleteDrawing = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this drawing?')) {
+    if (!confirm("Are you sure you want to delete this drawing?")) {
       return;
     }
 
@@ -41,13 +41,13 @@ export const DrawingGallery: React.FC = () => {
       const response = await drawingApi.deleteDrawing(id);
 
       if (response.success) {
-        setDrawings(prev => prev.filter(d => d.id !== id));
+        setDrawings((prev) => prev.filter((d) => d.id !== id));
       } else {
-        alert('Failed to delete drawing: ' + response.error);
+        alert("Failed to delete drawing: " + response.error);
       }
     } catch (error) {
-      console.error('Error deleting drawing:', error);
-      alert('Failed to delete drawing. Please try again.');
+      console.error("Error deleting drawing:", error);
+      alert("Failed to delete drawing. Please try again.");
     }
   };
 
@@ -89,7 +89,7 @@ export const DrawingGallery: React.FC = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {drawings.map(drawing => (
+          {drawings.map((drawing) => (
             <DrawingPreview
               key={drawing.id}
               drawing={drawing}

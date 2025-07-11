@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { Drawing } from '../../../shared/types';
+import React, { useRef, useEffect } from "react";
+import { Drawing } from "../../../shared/types";
 
 interface DrawingPreviewProps {
   drawing: Drawing;
@@ -8,7 +8,7 @@ interface DrawingPreviewProps {
 
 export const DrawingPreview: React.FC<DrawingPreviewProps> = ({
   drawing,
-  onDelete
+  onDelete,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -16,7 +16,7 @@ export const DrawingPreview: React.FC<DrawingPreviewProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Set canvas size
@@ -25,7 +25,7 @@ export const DrawingPreview: React.FC<DrawingPreviewProps> = ({
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Scale factor to fit drawing in preview
@@ -33,7 +33,7 @@ export const DrawingPreview: React.FC<DrawingPreviewProps> = ({
     const scaleY = canvas.height / 600;
 
     // Draw all strokes
-    drawing.strokes.forEach(stroke => {
+    drawing.strokes.forEach((stroke) => {
       if (stroke.points.length > 1) {
         ctx.beginPath();
         ctx.strokeStyle = stroke.color;

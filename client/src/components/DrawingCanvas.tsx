@@ -1,25 +1,33 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { Point, DrawingStroke, Drawing } from '../../../shared/types';
-import { drawingApi } from '../services/api';
-import { v4 as uuidv4 } from 'uuid';
+import React, { useRef, useEffect, useState } from "react";
+import { Point, DrawingStroke, Drawing } from "../../../shared/types";
+import { drawingApi } from "../services/api";
+import { v4 as uuidv4 } from "uuid";
 
 export const DrawingCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [currentStroke, setCurrentStroke] = useState<Point[]>([]);
   const [strokes, setStrokes] = useState<DrawingStroke[]>([]);
-  const [selectedColor, setSelectedColor] = useState('#000000');
+  const [selectedColor, setSelectedColor] = useState("#000000");
   const [brushSize, setBrushSize] = useState(2);
-  const [title, setTitle] = useState('');
+  const [title, setTitle] = useState("");
   const [isSaving, setIsSaving] = useState(false);
 
-  const colors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF', '#00FFFF'];
+  const colors = [
+    "#000000",
+    "#FF0000",
+    "#00FF00",
+    "#0000FF",
+    "#FFFF00",
+    "#FF00FF",
+    "#00FFFF",
+  ];
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     // Set canvas size
@@ -27,18 +35,18 @@ export const DrawingCanvas: React.FC = () => {
     canvas.height = 600;
 
     // Set drawing properties
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
+    ctx.lineCap = "round";
+    ctx.lineJoin = "round";
     ctx.strokeStyle = selectedColor;
     ctx.lineWidth = brushSize;
 
     // Clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Redraw all strokes
-    strokes.forEach(stroke => {
+    strokes.forEach((stroke) => {
       if (stroke.points.length > 1) {
         ctx.beginPath();
         ctx.strokeStyle = stroke.color;
@@ -73,7 +81,7 @@ export const DrawingCanvas: React.FC = () => {
     const rect = canvas.getBoundingClientRect();
     return {
       x: e.clientX - rect.left,
-      y: e.clientY - rect.top
+      y: e.clientY - rect.top,
     };
   };
 
@@ -87,7 +95,7 @@ export const DrawingCanvas: React.FC = () => {
     if (!isDrawing) return;
 
     const point = getMousePos(e);
-    setCurrentStroke(prev => [...prev, point]);
+    setCurrentStroke((prev) => [...prev, point]);
   };
 
   const stopDrawing = () => {
@@ -98,10 +106,10 @@ export const DrawingCanvas: React.FC = () => {
       points: currentStroke,
       color: selectedColor,
       width: brushSize,
-      timestamp: Date.now()
+      timestamp: Date.now(),
     };
 
-    setStrokes(prev => [...prev, newStroke]);
+    setStrokes((prev) => [...prev, newStroke]);
     setCurrentStroke([]);
     setIsDrawing(false);
   };
@@ -113,12 +121,12 @@ export const DrawingCanvas: React.FC = () => {
 
   const saveDrawing = async () => {
     if (!title.trim()) {
-      alert('Please enter a title for your drawing');
+      alert("Please enter a title for your drawing");
       return;
     }
 
     if (strokes.length === 0) {
-      alert('Please draw something before saving');
+      alert("Please draw something before saving");
       return;
     }
 
@@ -128,19 +136,19 @@ export const DrawingCanvas: React.FC = () => {
       const response = await drawingApi.createDrawing({
         title: title.trim(),
         strokes,
-        author: 'Anonymous'
+        author: "Anonymous",
       });
 
       if (response.success) {
-        alert('Drawing saved successfully!');
-        setTitle('');
+        alert("Drawing saved successfully!");
+        setTitle("");
         clearCanvas();
       } else {
-        alert('Failed to save drawing: ' + response.error);
+        alert("Failed to save drawing: " + response.error);
       }
     } catch (error) {
-      console.error('Error saving drawing:', error);
-      alert('Failed to save drawing. Please try again.');
+      console.error("Error saving drawing:", error);
+      alert("Failed to save drawing. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -173,12 +181,14 @@ export const DrawingCanvas: React.FC = () => {
               Colors:
             </label>
             <div className="flex gap-2">
-              {colors.map(color => (
+              {colors.map((color) => (
                 <button
                   key={color}
                   onClick={() => setSelectedColor(color)}
                   className={`w-8 h-8 rounded-full border-2 ${
-                    selectedColor === color ? 'border-gray-800' : 'border-gray-300'
+                    selectedColor === color
+                      ? "border-gray-800"
+                      : "border-gray-300"
                   }`}
                   style={{ backgroundColor: color }}
                 />
@@ -212,7 +222,7 @@ export const DrawingCanvas: React.FC = () => {
               disabled={isSaving}
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors disabled:opacity-50"
             >
-              {isSaving ? 'Saving...' : 'Save Drawing'}
+              {isSaving ? "Saving..." : "Save Drawing"}
             </button>
           </div>
         </div>
@@ -227,7 +237,7 @@ export const DrawingCanvas: React.FC = () => {
           onMouseUp={stopDrawing}
           onMouseLeave={stopDrawing}
           className="border border-gray-300 rounded cursor-crosshair"
-          style={{ maxWidth: '100%', height: 'auto' }}
+          style={{ maxWidth: "100%", height: "auto" }}
         />
       </div>
 
