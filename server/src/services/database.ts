@@ -1,6 +1,16 @@
 import sqlite3 from 'sqlite3';
 import { Database } from 'sqlite3';
 import path from 'path';
+import { Drawing } from '../../../shared/types';
+
+interface DrawingRow {
+  id: string;
+  title: string;
+  strokes: string;
+  author: string | null;
+  created_at: string;
+  updated_at: string;
+}
 
 class DatabaseService {
   private db: Database;
@@ -38,15 +48,17 @@ class DatabaseService {
     });
   }
 
-  public getAllDrawings(): Promise<any[]> {
+  public getAllDrawings(): Promise<Drawing[]> {
     return new Promise((resolve, reject) => {
-      this.db.all('SELECT * FROM drawings ORDER BY created_at DESC', [], (err, rows) => {
+      this.db.all('SELECT * FROM drawings ORDER BY created_at DESC', [], (err, rows: DrawingRow[]) => {
         if (err) {
           reject(err);
         } else {
-          const drawings = rows.map(row => ({
-            ...row,
+          const drawings: Drawing[] = rows.map(row => ({
+            id: row.id,
+            title: row.title,
             strokes: JSON.parse(row.strokes),
+            author: row.author || undefined,
             createdAt: row.created_at,
             updatedAt: row.updated_at
           }));
@@ -56,17 +68,19 @@ class DatabaseService {
     });
   }
 
-  public getDrawingById(id: string): Promise<any | null> {
+  public getDrawingById(id: string): Promise<Drawing | null> {
     return new Promise((resolve, reject) => {
-      this.db.get('SELECT * FROM drawings WHERE id = ?', [id], (err, row) => {
+      this.db.get('SELECT * FROM drawings WHERE id = ?', [id], (err, row: DrawingRow | undefined) => {
         if (err) {
           reject(err);
         } else if (!row) {
           resolve(null);
         } else {
-          const drawing = {
-            ...row,
+          const drawing: Drawing = {
+            id: row.id,
+            title: row.title,
             strokes: JSON.parse(row.strokes),
+            author: row.author || undefined,
             createdAt: row.created_at,
             updatedAt: row.updated_at
           };
@@ -76,7 +90,7 @@ class DatabaseService {
     });
   }
 
-  public createDrawing(drawing: any): Promise<any> {
+  public createDrawing(drawing: Drawing): Promise<Drawing> {
     return new Promise((resolve, reject) => {
       const { id, title, strokes, author, createdAt, updatedAt } = drawing;
       const sql = `
@@ -84,7 +98,7 @@ class DatabaseService {
         VALUES (?, ?, ?, ?, ?, ?)
       `;
 
-      this.db.run(sql, [id, title, JSON.stringify(strokes), author, createdAt, updatedAt], function(err) {
+      this.db.run(sql, [id, title, JSON.stringify(strokes), author || null, createdAt, updatedAt], function(err) {
         if (err) {
           reject(err);
         } else {
