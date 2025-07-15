@@ -1,6 +1,6 @@
 # Drawing App
 
-A full-stack drawing application built with React, Node.js, Express, and TypeScript. Users can create drawings on an HTML5 canvas and save them to view in a gallery.
+A full-stack drawing application built with Next.js, Node.js, Express, and TypeScript. Users can create drawings on an HTML5 canvas and save them to view in a gallery.
 
 ## Features
 
@@ -9,31 +9,36 @@ A full-stack drawing application built with React, Node.js, Express, and TypeScr
 - 🖼️ **Gallery View**: Browse all saved drawings
 - 🎯 **Responsive Design**: Works on desktop and mobile devices
 - 🔧 **TypeScript**: Full type safety across the entire stack
-- 🚀 **Modern Stack**: React 18, Express, Vite, Tailwind CSS
+- 🚀 **Modern Stack**: Next.js 14, Express, Tailwind CSS
 
 ## Tech Stack
 
 ### Frontend
 
-- **React 18** with TypeScript
-- **Vite** for fast development and building
+- **Next.js 14** with TypeScript
+- **React 18** with App Router
 - **Tailwind CSS** for styling
-- **React Router** for navigation
-- **Axios** for API calls
+- **File-based routing** with Next.js App Router
+- **Built-in API Routes** with Next.js API routes
 
 ### Backend
 
-- **Node.js** with Express
+- **Next.js API Routes** for serverless functions
+- **SQLite** database for data persistence
 - **TypeScript** for type safety
-- **CORS** enabled for cross-origin requests
 - **UUID** for unique identifiers
+
+### Database
+
+- **SQLite** with file-based storage
+- **TypeScript** database service layer
+- **Data persistence** in local database file
 
 ### Development Tools
 
 - **ESLint** for code linting
 - **Prettier** for code formatting
-- **Concurrently** for running multiple processes
-- **Nodemon** for backend hot reload
+- **Next.js built-in optimizations**
 
 ## Getting Started
 
@@ -51,37 +56,23 @@ A full-stack drawing application built with React, Node.js, Express, and TypeScr
    cd drawing-app
    ```
 
-2. **Install dependencies for all packages**
+2. **Install dependencies**
 
    ```bash
    npm run install:all
    ```
 
-3. **Set up environment variables**
-
-   Create `.env` files in both server and client directories:
-
-   ```bash
-   # server/.env
-   PORT=5000
-   NODE_ENV=development
-
-   # client/.env
-   VITE_API_URL=http://localhost:5000
-   ```
-
-4. **Start the development servers**
+3. **Start the development server**
 
    ```bash
    npm run dev
    ```
 
-   This will start both the frontend (http://localhost:3000) and backend (http://localhost:5000) servers.
+   This will start the Next.js application at http://localhost:3000 with built-in API routes.
 
 ### Individual Commands
 
-- **Start frontend only**: `npm run dev:client`
-- **Start backend only**: `npm run dev:server`
+- **Start development server**: `npm run dev`
 - **Build for production**: `npm run build`
 - **Run linting**: `npm run lint`
 - **Format code**: `npm run format`
@@ -90,14 +81,19 @@ A full-stack drawing application built with React, Node.js, Express, and TypeScr
 
 ```
 drawing-app/
-├── client/                 # React frontend
+├── client/                 # Next.js application
 │   ├── src/
+│   │   ├── app/           # Next.js App Router
+│   │   │   ├── api/       # API routes
+│   │   │   ├── gallery/   # Gallery page
+│   │   │   ├── globals.css
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
 │   │   ├── components/     # React components
-│   │   ├── services/       # API services
-│   │   └── ...
-│   ├── public/            # Static files
+│   │   ├── services/       # API services & database
+│   │   └── shared/         # Shared types
+│   ├── data/              # SQLite database
 │   └── package.json
-├── server/                # Express backend
 │   ├── src/
 │   │   ├── routes/        # API routes
 │   │   ├── middleware/    # Express middleware
